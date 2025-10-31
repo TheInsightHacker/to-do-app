@@ -1,0 +1,80 @@
+MDBoxLayout:
+    orientation: 'vertical'
+    md_bg_color: app.theme_cls.backgroundColor
+    
+    # Top App Bar
+    MDTopAppBar:
+        title: "My Todo App"
+        md_bg_color: app.theme_cls.primaryColor
+        specific_text_color: 1, 1, 1, 1
+        elevation: 2
+        left_action_items: [["format-list-checks", lambda x: None]]
+        right_action_items: [["delete-sweep", lambda x: app.clear_all_tasks()]]
+    
+    # Main Content Area
+    MDBoxLayout:
+        orientation: 'vertical'
+        padding: dp(16)
+        spacing: dp(16)
+        
+        # Input Section
+        MDBoxLayout:
+            size_hint_y: None
+            height: dp(56)
+            spacing: dp(8)
+            
+            MDTextField:
+                id: task_input
+                hint_text: "Enter a new task"
+                mode: "outlined"
+                icon_right: "clipboard-text"
+                on_text_validate: app.add_task()
+                
+            MDIconButton:
+                icon: "plus-circle"
+                on_release: app.add_task()
+                md_bg_color: app.theme_cls.primaryColor
+                theme_icon_color: "Custom"
+                icon_color: 1, 1, 1, 1
+                size_hint_x: None
+                width: dp(56)
+        
+        # Divider
+        MDDivider:
+            height: dp(1)
+        
+        # Task List Section
+        MDLabel:
+            text: "Tasks"
+            font_style: "H6"
+            size_hint_y: None
+            height: dp(40)
+            padding: dp(8), dp(8)
+        
+        ScrollView:
+            do_scroll_x: False
+            
+            MDList:
+                id: task_list
+                spacing: dp(4)
+        
+        # Empty State
+        MDBoxLayout:
+            orientation: 'vertical'
+            size_hint_y: None
+            height: dp(100)
+            padding: dp(20)
+            spacing: dp(10)
+            opacity: 0 if task_list.children else 1
+            
+            MDIcon:
+                icon: "clipboard-check-outline"
+                halign: "center"
+                theme_text_color: "Hint"
+                font_size: dp(48)
+                
+            MDLabel:
+                text: "No tasks yet. Add one above!"
+                halign: "center"
+                theme_text_color: "Hint"
+                font_style: "Caption"
